@@ -8,7 +8,16 @@ namespace programme_fichiers
     {
         static void Main(string[] args)
         {
+            // var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            var path = "out";
+
+            Directory.CreateDirectory(path); // créer un dossier
+
             string filename = "monFichier.txt";
+
+            string pathAndFile = Path.Combine(path, filename);
+
+            Console.WriteLine("Fichier : " + pathAndFile);
 
             var noms = new List<string>()
             {
@@ -19,12 +28,12 @@ namespace programme_fichiers
 
             // File.WriteAllText("monFichier.txt", "Voici le contenu que j'écris dans le fichier texte");
             // File.AppendAllText(filename, "je rajoute ce texte");
-            File.WriteAllLines(filename, noms);
+            File.WriteAllLines(pathAndFile, noms);
 
             try
             {
                 // string resultat = File.ReadAllText(filename);
-                var lignes = File.ReadAllLines(filename);
+                var lignes = File.ReadAllLines(pathAndFile);
 
                 foreach (var ligne in lignes)
                 {
