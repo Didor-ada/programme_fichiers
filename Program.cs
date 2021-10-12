@@ -9,13 +9,27 @@ namespace programme_fichiers
         static void Main(string[] args)
         {
             // var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            var path = "out";
+            var path = "out"; // le nom du dossier
 
-            Directory.CreateDirectory(path); // créer un dossier
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path); // créer un dossier
+            }
+
+
 
             string filename = "monFichier.txt";
 
             string pathAndFile = Path.Combine(path, filename);
+
+            if (File.Exists(pathAndFile)) // vérifie si le fichier existe en renvoie un booléen
+            {
+                Console.WriteLine("Le fichier existe déjà, son contenu va être écrasé");
+            }
+            else
+            {
+                Console.WriteLine("Le fichier n'existe pas, il va être créé");
+            }
 
             Console.WriteLine("Fichier : " + pathAndFile);
 
@@ -48,6 +62,10 @@ namespace programme_fichiers
             {
                 Console.WriteLine("Une erreur inconnue est arrivée");
             }
+
+            // File.Copy(pathAndFile, pathAndFile2); -> il faut inclure dans le code les variables copies du premier fichier correspondantes
+            // File.Delete(pathAndFile2); -> delete le fichier en question
+            // File.Move(pathAndFile, pathAndFile); -> renomme le premier fichier avec le nom du second
         }
     }
 }
