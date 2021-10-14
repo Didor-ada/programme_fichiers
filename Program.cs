@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace programme_fichiers
 {
@@ -33,35 +34,83 @@ namespace programme_fichiers
 
             Console.WriteLine("Fichier : " + pathAndFile);
 
-            var noms = new List<string>()
+            /*var noms = new List<string>()
             {
                 "Jean",
                 "Paul",
                 "Martin"
-            };
+            };*/
 
-            // File.WriteAllText("monFichier.txt", "Voici le contenu que j'écris dans le fichier texte");
-            // File.AppendAllText(filename, "je rajoute ce texte");
-            File.WriteAllLines(pathAndFile, noms);
+            StringBuilder texte = new StringBuilder();
+            int nbLignes = 50000;
 
-            try
+            // immutable
+            // texte = "toto";
+            // text += "o"; // totoo
+
+            // mutable
+            // StringBuilder
+
+            // DateTime t1 = DateTime.Now;
+
+            /*            Console.WriteLine("Préparation des données...");
+                        for (int i = 1; i <= nbLignes; i++)
+                        {
+                            texte.Append ("Ligne " + i + "\n"); // append sert à rajouter, vu que texte n'est plus de type string, append va remplacer la conca +=
+                        }
+                        Console.WriteLine("OK");
+
+                        Console.WriteLine("Ecriture des données...");
+                        File.WriteAllText(pathAndFile, texte.ToString());
+                        Console.WriteLine("OK");
+
+                        DateTime t2 = DateTime.Now;
+                        var diff = (int)((t2 - t1)).TotalMilliseconds; // 1s = 1000ms
+                        Console.WriteLine("Durée (ms) :" + diff);*/
+
+
+            // Stream : flux
+
+            DateTime t1 = DateTime.Now;
+
+            using (var writeStream = File.CreateText(pathAndFile))
             {
-                // string resultat = File.ReadAllText(filename);
-                var lignes = File.ReadAllLines(pathAndFile);
-
-                foreach (var ligne in lignes)
+                for (int i = 1; i <= nbLignes; i++)
                 {
-                    Console.WriteLine(ligne);
+                    writeStream.Write("Ligne " + i + "\n");
                 }
             }
-            catch(FileNotFoundException ex)
-            {
-                Console.WriteLine("Erreur ce fichier n'existe pas (" + ex.Message + ")");
-            }
-            catch
-            {
-                Console.WriteLine("Une erreur inconnue est arrivée");
-            }
+
+            Console.WriteLine("OK");
+            DateTime t2 = DateTime.Now;
+            var diff = (int)((t2 - t1)).TotalMilliseconds; // 1s = 1000ms
+            Console.WriteLine("Durée (ms) :" + diff);
+
+
+
+
+
+            // File.AppendAllText(filename, "je rajoute ce texte");
+            // File.WriteAllLines(pathAndFile, noms);
+
+            /*            try
+                        {
+                            // string resultat = File.ReadAllText(filename);
+                            var lignes = File.ReadAllLines(pathAndFile);
+
+                            foreach (var ligne in lignes)
+                            {
+                                Console.WriteLine(ligne);
+                            }
+                        }
+                        catch(FileNotFoundException ex)
+                        {
+                            Console.WriteLine("Erreur ce fichier n'existe pas (" + ex.Message + ")");
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Une erreur inconnue est arrivée");
+                        }*/
 
             // File.Copy(pathAndFile, pathAndFile2); -> il faut inclure dans le code les variables copies du premier fichier correspondantes
             // File.Delete(pathAndFile2); -> delete le fichier en question
